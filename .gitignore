@@ -1,0 +1,6 @@
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+*_PRIVATE_key_*
+*DO_NOT_DEPOSIT*

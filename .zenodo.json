@@ -1,0 +1,41 @@
+{
+  "title": "Data and code for: Selecting puppies for underrepresented alleles conserves more genetic diversity in three dog breeds",
+  "upload_type": "dataset",
+  "version": "v40",
+  "language": "eng",
+  "license": "cc-by-4.0",
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Tessier, Natalie Green",
+      "affiliation": "BetterBred",
+      "orcid": "0009-0007-5339-0822"
+    }
+  ],
+  "description": "<p>Complete data and code package for a forward simulation study comparing four keeper-selection strategies for managing genetic diversity in closed purebred dog populations: outlier index (OI), average genetic relatedness (AGR), internal relatedness (IR), and random selection.</p><p>Founder populations of 200 real dogs with 33-locus STR microsatellite genotypes were bred forward for 20 generations, 50 replicates per breed, across three breeds with distinct bottleneck histories: Standard Poodle, Doberman Pinscher, and Flat-Coated Retriever. Selection acts on which puppies are kept, not on which parents are bred.</p><p><strong>Contents</strong></p><ul><li><code>manuscript/</code> &mdash; manuscript (DOCX, authoritative; Markdown extraction provided for accessibility), submission-resolution figures (Figures 1&ndash;4 and Supplementary Figures S1&ndash;S2), supplementary tables S1&ndash;S6 in XLSX, and the Supplementary Figure S2 source data (per-dog outlier index, average genetic relatedness, and Mid-Century Bottleneck ancestry percentage for 632 Standard Poodles under anonymous study codes)</li><li><code>simulation/</code> &mdash; the main study runner (outlier index, average genetic relatedness, internal relatedness and random keeper selection) and the threshold-sensitivity runner behind Supplementary Table S6, per-replicate and per-generation results for all 50 replicates across three breeds, and 33-locus STR genotypes for the 4,835 drawn founders (3,540 Standard Poodles, 859 Doberman Pinschers, 436 Flat-Coated Retrievers), identified by study codes only</li></ul><p><strong>Anonymisation.</strong> All released data are anonymised. Dogs carry study codes only; no registered names, owner details, database identifiers, or other identifying fields appear in any file. Founder genotypes and the Supplementary Figure S2 dataset use separate, unlinked code spaces.</p><p><strong>Licensing.</strong> Code is released under the MIT License; data, manuscript, and figures under CC-BY-4.0. See LICENSE-CODE and LICENSE-DATA in the archive.</p><p><strong>Known artifact.</strong> The <code>band_infr_delta</code>, <code>band_norm_delta</code> and <code>band_hfreq_delta</code> columns in the replicate files subtract two band measures computed on different denominators and are not interpretable. This is documented in README.md. All other delta columns are valid.</p>",
+  "keywords": [
+    "conservation genetics",
+    "allelic richness",
+    "heterozygosity",
+    "genetic bottleneck",
+    "inbreeding",
+    "purebred dogs",
+    "forward simulation",
+    "microsatellite",
+    "STR genotyping",
+    "population genetics",
+    "outlier index",
+    "mean kinship",
+    "internal relatedness",
+    "Canis lupus familiaris"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/ngtessier/canine-diversity-forward-sim-2026",
+      "relation": "isSupplementTo",
+      "resource_type": "software",
+      "scheme": "url"
+    }
+  ],
+  "notes": "No external funding was received for this study. The author developed the outlier index and operates BetterBred, a commercial platform offering these metrics to dog breeders; see the Conflict of Interest Statement in the manuscript."
+}
