@@ -1,4 +1,4 @@
-# Data and code for: Selecting puppies for underrepresented alleles conserves more genetic diversity in three dog breeds
+# Data and code for: Selecting puppies for underrepresented alleles conserves genetic diversity: a forward simulation in three dog breeds
 
 Companion data and code repository for Tessier (2026).
 
@@ -8,8 +8,8 @@ This repository contains the complete materials for a forward simulation study c
 
 ```
 manuscript/
-  SimStudyI-v40.docx                    assembled manuscript (AUTHORITATIVE)
-  SimStudyI-v40.md                      pandoc text extraction of the docx, for
+  SimStudyI-v41.docx                    assembled manuscript (AUTHORITATIVE)
+  SimStudyI-v41.md                      pandoc text extraction of the docx, for
                                         accessibility and search only; not a build source
   figures/                              submission-resolution figures
     Figure1_allelic_richness.png
@@ -62,11 +62,11 @@ Figures 1–4 and Supplementary Figure S1 are PNG at 300 dpi (4320 × 1432 px). 
 
 The plotting code for Figures 1–4 and S1 is not included; those figures are provided as rendered images. All values plotted in them are present in `simulation/results/sim1_progress_*_50rep.csv` (`avg_na`, `avg_he`, `avg_ho`, `avg_fis`, `avg_ir` by generation, strategy, and replicate).
 
-## Table numbering (v40)
+## Table numbering (v41)
 
-Table numbering changed at v37 with the addition of a breed-wide statistics table and is unchanged through v40. Readers working from an earlier draft should map as follows:
+Table numbering changed at v37 with the addition of a breed-wide statistics table and is unchanged through v41. Readers working from an earlier draft should map as follows:
 
-| v40 | Earlier drafts | Contents |
+| v41 | Earlier drafts | Contents |
 |---|---|---|
 | Table 1 | *(new)* | Breed-wide VGL genetic diversity statistics for the three breeds |
 | Tables 2a–c | Tables 1a–c | Founder and generation-20 outcomes, per breed |
@@ -118,6 +118,6 @@ Code is released under the MIT License. Data, manuscript, and figures are releas
 
 ## Citation
 
-Tessier, N. G. (2026). *Selecting puppies for underrepresented alleles conserves more genetic diversity in three dog breeds.*
+Tessier, N. G. (2026). *Selecting puppies for underrepresented alleles conserves genetic diversity: a forward simulation in three dog breeds.* Data and code: https://doi.org/10.5281/zenodo.22161273
 
 ORCID: [0009-0007-5339-0822](https://orcid.org/0009-0007-5339-0822)

@@ -1,6 +1,8 @@
-**Selecting puppies for underrepresented alleles conserves more genetic diversity in three dog breeds**
+**Selecting puppies for underrepresented alleles conserves genetic diversity: a forward simulation in three dog breeds**
 
 *Natalie Green Tessier*
+
+Running title: Selecting puppies to conserve diversity
 
 **Abstract**
 
@@ -108,6 +110,8 @@ Random selection lost the most allelic richness in all breeds (Figure 1; Table 1
 
 *Figure 1. Allelic richness over 20 generations by selection strategy, normalized to starting allelic richness (= 100%). Lines are means of 50 replicates; shaded bands are ±1 SD. Under outlier index and average genetic relatedness, loss arrests within the simulation window. Under internal relatedness and random selection, loss continues monotonically through generation 20.*
 
+Alt text: Three line charts, one per breed, showing allelic richness per generation as a percentage of starting richness. With selection by outlier index and average genetic relatedness, the curves plateau by roughly generation 6 to 9 in each breed and continue to generation 20. With selection by internal relatedness and random selection, the curves continue to decline to generation 20, with random selection lowest in all three breeds.
+
 **Table 1. Founder (generation 0) and generation-20 diversity metrics by strategy in each breed.**
 
 |                             |                |                   |                             |                             |                       |                   |                          |         |
@@ -184,13 +188,19 @@ At generation 20, the gap between expected and observed heterozygosity, standard
 
 *Figure 2. Expected heterozygosity over 20 generations by selection strategy. Lines are means of 50 replicates; shaded bands are ±1 SD; shared y-axis across breeds for visual comparability. Outlier index and average genetic relatedness produce substantial expected heterozygosity gains in all three breeds; internal relatedness rises modestly; random selection declines slightly.*
 
+Alt text: Three line charts of expected heterozygosity over 20 generations. Selection by outlier index and average genetic relatedness raises expected heterozygosity steadily in all breeds, most sharply in the Doberman, from about 0.50 at the start to 0.79 and 0.78 by generation 20. Selection by internal relatedness produces smaller gains and random selection remains near its starting value.
+
 <img src="figures/Figure3_observed_heterozygosity.png" style="width:6.5in;height:2.15625in" />
 
 *Figure 3. Observed heterozygosity over 20 generations by selection strategy. Lines are means of 50 replicates; shaded bands are ±1 SD; shared y-axis across breeds. Outlier index produces the highest observed heterozygosity in all three breeds; internal relatedness holds observed heterozygosity high despite lower expected heterozygosity; average genetic relatedness runs an observed-heterozygote deficit; random selection remains near founder levels.*
 
+Alt text: Three line charts of observed heterozygosity over 20 generations. With selection by outlier index, observed heterozygosity closely tracks expected heterozygosity in every breed. With selection by average genetic relatedness, it runs below expected values, and with selection by internal relatedness, it runs above them. Random selection tracks its lower expected heterozygosity values closely.
+
 <img src="figures/Figure4_inbreeding_coefficient.png" style="width:6.5in;height:2.15625in" />
 
 *Figure 4. Inbreeding coefficient (Fis) over 20 generations by selection strategy. Lines are means of 50 replicates; shaded bands are ±1 SD; the 0 reference line marks Hardy–Weinberg expectation. Average genetic relatedness drives Fis positive (a genome-wide heterozygote deficit) in all three breeds; the internal-relatedness strategy drives it well below zero (heterozygote excess); outlier index and random selection hold near zero.*
+
+Alt text: Three line charts of the inbreeding coefficient Fis over 20 generations. Outlier index selection holds Fis at or near zero in all breeds without any selection against inbreeding. Average genetic relatedness runs a positive Fis of roughly 0.05 to 0.08 steadily through 20 generations, internal relatedness a negative Fis of roughly −0.10 to −0.12, and random selection stays near zero.
 
 **Discussion**
 
@@ -312,9 +322,17 @@ Testing for carriers and breeding them to dogs clear of a recessive mutation, ra
 
 Purebred dog breeders have the power to conserve the original allelic variation in their breeds if they identify and select puppies that have the largest estimated proportion of less common alleles for breeding stock. This, combined with equalizing family size, can slow or arrest loss of allelic richness in fewer than ten generations. In doing so, they can also, as a by-product, control inbreeding in the population. Selecting the least inbred puppies, in contrast, does not conserve allelic variation well. A small panel of polymorphic loci can accurately identify unusual dogs using two different algorithms, one based on categorizing alleles by frequency and the other on average genetic relatedness. No central management is necessary to select which dogs to breed or how many they should contribute to the next generation as long as breeders have access to testing, simple tools and easy instructions. Further research should be done on health outcomes in breeds with improved heterozygosity and more even allele frequencies, and future development of breed-specific, multi-allelic loci panels may improve upon the progress demonstrated by these simulations.
 
+**Funding**
+
+No external funding was received for this study.
+
+**Acknowledgements**
+
+No animals were handled for this study. Genotypes came from samples voluntarily submitted by owners to VGL for commercial testing, and results were then submitted to BetterBred with owners’ permission to use for research. Standard Poodle genotypes for the pedigree data comparison were submitted for the Pedersen et al. (2015) paper, on which the author is listed as co-author.
+
 **Data Availability**
 
-The simulation code, the anonymized founder genotype data for all three breeds, the per-replicate results for all strategies, and the supplementary tables are archived on Zenodo (doi: 10.5281/zenodo.XXXXXXX) and maintained on GitHub (https://github.com/BetterBred/canine-diversity-forward-sim-2026). Founder genotypes are anonymized and identified only by study codes. For the pedigree-ancestry analysis in Supplementary Figure S2, per-dog outlier index, average genetic relatedness, and Mid-Century Bottleneck ancestry percentages are provided under anonymous study codes. The underlying genotypes and registered names for that cohort are withheld because pedigree data could identify individual dogs and owners; they are available from the author on reasonable request.
+The simulation code, the anonymized founder genotype data for all three breeds, the per-replicate results for all strategies, and the supplementary tables are archived on Zenodo (doi: 10.5281/zenodo.22161273) and maintained on GitHub (https://github.com/ngtessier/canine-diversity-forward-sim-2026). Founder genotypes are anonymized and identified only by study codes. For the pedigree-ancestry analysis in Supplementary Figure S2, per-dog outlier index, average genetic relatedness, and Mid-Century Bottleneck ancestry percentages are provided under anonymous study codes. The underlying genotypes and registered names for that cohort are withheld because pedigree data could identify individual dogs and owners; they are available from the author on reasonable request.
 
 **Conflict of Interest Statement**
 
@@ -397,6 +415,8 @@ Sutter, N. B., Eberle, M. A., Parker, H. G., Pullar, B. J., Kirkness, E. F., Kru
 Teixeira, J. C., & Huber, C. D. (2021). The inflated significance of neutral genetic diversity in conservation genetics. *PNAS*, 118(10), e2015096118. doi:10.1073/pnas.2015096118
 
 Teschke, M., Mukabayire, O., Wiehe, T., & Tautz, D. (2008). Identification of selective sweeps in closely related populations of the house mouse based on microsatellite scans. *Genetics*, 180(3), 1537–1545. doi:10.1534/genetics.108.090811
+
+\[dataset\] Tessier, N. G. (2026). Data and code for: Selecting puppies for underrepresented alleles conserves genetic diversity: a forward simulation in three dog breeds. Zenodo. https://doi.org/10.5281/zenodo.22161273
 
 Wade, C. M., Nuttall, R., & Liu, S. (2023). Comprehensive analysis of geographic and breed-purpose influences on genetic diversity and inherited disease risk in the Doberman dog breed. *Canine Medicine and Genetics*, 10, 7. doi:10.1186/s40575-023-00130-3
 
@@ -506,6 +526,10 @@ Supplementary Tables S1–S5 (paired Wilcoxon signed-rank, full pairwise results
 
 *Supplementary Figure S1. Mean population internal relatedness over 20 generations by selection strategy. Lines are means of 50 replicates; shaded bands are ±1 SD; the 0 reference line marks founder-population baseline relatedness. Internal relatedness tracks the inbreeding coefficient (Fis; main-text Figure 4) almost exactly (r ≈ 1.00). Average genetic relatedness raises internal relatedness in all three breeds; the internal-relatedness strategy minimizes it as designed; outlier index holds near zero.*
 
+Alt text: Three line charts of mean population internal relatedness over 20 generations, mirroring the inbreeding (Fis) pattern: near zero with selection by outlier index and random selection, elevated with selection by average genetic relatedness, and negative with selection by internal relatedness.
+
 <img src="figures/FigureS2_OI_AGR_vs_MCB_2panel.png" style="width:6.5in;height:2.76042in" />
 
 *Supplementary Figure S2. Outlier index (a) and average genetic relatedness (b) versus pedigree ancestry from the Mid-Century Bottleneck (%MCB) in 632 Standard Poodles with known 15-generation pedigrees validated in Pedersen et al. (2015). Each point is one dog; both metrics are computed from the cohort’s marker allele frequencies with no pedigree input. Average genetic relatedness is each dog’s mean pairwise Wang (2002) relatedness within the cohort. (a) Pearson r = −0.63 (95% CI −0.68 to −0.59). (b) Pearson r = +0.63 (95% CI +0.58 to +0.67). Confidence intervals were computed with the Fisher z transformation. The choice of frequency reference was not material: recomputing both metrics against the current breed-wide reference of more than 6,000 Standard Poodles shifted the correlations with bottleneck ancestry by no more than 0.031.*
+
+Alt text: Two scatter plots of 632 Standard Poodles with fitted regression lines. Panel a shows outlier index values falling as pedigree ancestry from the Mid-Century Bottleneck rises, r = −0.63. Panel b shows average genetic relatedness values rising with bottleneck ancestry, r = +0.63.
