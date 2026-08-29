@@ -48,7 +48,7 @@ The manuscript DOCX is authoritative. The Markdown file is a pandoc extraction o
 
 Two runners are included. Both are Azure Function HTTP endpoints that operate against a MySQL working schema; database credentials are supplied through environment variables (`BB_DB_HOST`, `BB_DB_USER`, `BB_DB_PASS`, `BB_DB_NAME`) and no credentials are present in the source.
 
-**`run_sim1.py`** is the main study runner and produced every result reported in the manuscript body. It implements the four keeper-selection strategies (OI, AGR, IR, RANDOM), the Wang (2002) relatedness estimator used for average genetic relatedness, per-generation observed and expected heterozygosity with F<sub>IS</sub>, and the allele frequency band composition reported in Table 4. It writes the `sim1_progress`, `sim1_replicates`, and `sim1_founders` tables. The first two are exported here as the `sim1_*` files in `results/`; the founders table is exported, re-keyed to the released study codes, as `results/founder_replicate_rosters_anonymized.csv`. Litter size, number of generations, and sires per dam are runtime parameters.
+**`run_sim1.py`** is the main study runner and produced every result reported in the manuscript body. It implements the four keeper-selection strategies (OI, AGR, IR, RANDOM), the Wang (2002) relatedness estimator used for average genetic relatedness, per-generation observed and expected heterozygosity with F<sub>IS</sub>, and the allele frequency band composition reported in Table 3. It writes the `sim1_progress`, `sim1_replicates`, and `sim1_founders` tables. The first two are exported here as the `sim1_*` files in `results/`; the founders table is exported, re-keyed to the released study codes, as `results/founder_replicate_rosters_anonymized.csv`. Litter size, number of generations, and sires per dam are runtime parameters.
 
 **`run_sim_1a.py`** is the threshold-sensitivity runner behind Supplementary Table S6. It re-runs the design across five low/high frequency-band threshold pairs (T1 = 0.900/1.100 through T5 = 0.600/1.400) plus a random control, where T3 = 0.750/1.250 is the standard used throughout the main study. It writes the separate `sim1a_*` tables.
 
@@ -64,17 +64,17 @@ The plotting code for Figures 1–4 and S1 is not included; those figures are pr
 
 ## Table numbering (v41)
 
-Table numbering changed at v37 with the addition of a breed-wide statistics table and is unchanged through v41. Readers working from an earlier draft should map as follows:
+Table numbering changed twice across drafts: at v37 a breed-wide VGL statistics table entered the main text as Table 1, and at v40 that table moved to Supplementary Table S8, returning the main tables to a 1–4 sequence (with the per-breed outcome tables merged into a single Table 1). Readers working from an earlier draft should map as follows:
 
-| v41 | Earlier drafts | Contents |
-|---|---|---|
-| Table 1 | *(new)* | Breed-wide VGL genetic diversity statistics for the three breeds |
-| Tables 2a–c | Tables 1a–c | Founder and generation-20 outcomes, per breed |
-| Table 3 | Table 2 | Allele loss over the final five generations |
-| Table 4 | Table 3 | Allele frequency band composition (% of distinct alleles) |
-| Table 5 | Table 4 | Two highly inbred Standard Poodles: matching IR, divergent OI |
+| v40–v41 (current) | v37-era drafts | Pre-v37 drafts | Contents |
+|---|---|---|---|
+| Table 1 | Tables 2a–c | Tables 1a–c | Founder (generation 0) and generation-20 outcomes, by strategy in each breed |
+| Table 2 | Table 3 | Table 2 | Allele loss over the final five generations |
+| Table 3 | Table 4 | Table 3 | Allele frequency band composition (% of distinct alleles) |
+| Table 4 | Table 5 | Table 4 | Two highly inbred Standard Poodles: matching IR, divergent OI |
+| Supplementary Table S8 | Table 1 | *(absent)* | Breed-wide VGL genetic diversity statistics for the three breeds |
 
-Supplementary tables S1–S6 are unchanged; the renumbering did not touch them. Supplementary Tables S7 (genome positions of the 33 panel loci on canFam4, with inter-locus distances) and S8 (breed-wide VGL genetic diversity statistics) were added at v40 and are embedded in the manuscript itself; they have no separate spreadsheet files.
+Supplementary tables S1–S6 are unchanged throughout. Supplementary Table S7 (genome positions of the 33 panel loci on canFam4, with inter-locus distances) was added at v40. S7 and S8 are embedded in the manuscript itself; they have no separate spreadsheet files.
 
 ## Founder genotypes
 
