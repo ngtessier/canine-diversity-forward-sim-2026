@@ -8,8 +8,8 @@ This repository contains the complete materials for a forward simulation study c
 
 ```
 manuscript/
-  SimStudyI-v41.docx                    assembled manuscript (AUTHORITATIVE)
-  SimStudyI-v41.md                      pandoc text extraction of the docx, for
+  SimStudyI-v42.docx                    assembled manuscript (AUTHORITATIVE)
+  SimStudyI-v42.md                      pandoc text extraction of the docx, for
                                         accessibility and search only; not a build source
   figures/                              submission-resolution figures
     Figure1_allelic_richness.png
@@ -62,11 +62,11 @@ Figures 1–4 and Supplementary Figure S1 are PNG at 300 dpi (4320 × 1432 px). 
 
 The plotting code for Figures 1–4 and S1 is not included; those figures are provided as rendered images. All values plotted in them are present in `simulation/results/sim1_progress_*_50rep.csv` (`avg_na`, `avg_he`, `avg_ho`, `avg_fis`, `avg_ir` by generation, strategy, and replicate).
 
-## Table numbering (v41)
+## Table numbering (v42)
 
 Table numbering changed twice across drafts: at v37 a breed-wide VGL statistics table entered the main text as Table 1, and at v40 that table moved to Supplementary Table S8, returning the main tables to a 1–4 sequence (with the per-breed outcome tables merged into a single Table 1). Readers working from an earlier draft should map as follows:
 
-| v40–v41 (current) | v37-era drafts | Pre-v37 drafts | Contents |
+| v40–v42 (current) | v37-era drafts | Pre-v37 drafts | Contents |
 |---|---|---|---|
 | Table 1 | Tables 2a–c | Tables 1a–c | Founder (generation 0) and generation-20 outcomes, by strategy in each breed |
 | Table 2 | Table 3 | Table 2 | Allele loss over the final five generations |
