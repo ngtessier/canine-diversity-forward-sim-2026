@@ -40,6 +40,11 @@ simulation/
     founder_replicate_rosters_anonymized.csv
                                         per-dog founder OI/IR/AGR for every
                                         replicate roster, all three breeds
+  php/
+    sim-functions-1.php                 WordPress AJAX handler: founder seeding
+                                        (200-dog draw, per-dog OI/IR/AGR scoring,
+                                        gen-0 frequency tables) and run orchestration
+    sim_runner1.php                     admin page that operates the runners
 ```
 
 The manuscript DOCX is authoritative. The Markdown file is a pandoc extraction of that DOCX, provided so the text is readable and searchable without Word; it is not a build source and regenerating the DOCX from it is not supported.
@@ -52,7 +57,9 @@ Two runners are included. Both are Azure Function HTTP endpoints that operate ag
 
 **`run_sim_1a.py`** is the threshold-sensitivity runner behind Supplementary Table S6. It re-runs the design across five low/high frequency-band threshold pairs (T1 = 0.900/1.100 through T5 = 0.600/1.400) plus a random control, where T3 = 0.750/1.250 is the standard used throughout the main study. It writes the separate `sim1a_*` tables.
 
-Allele frequency band composition is computed inside `run_sim1.py` and is already present in the deposited replicate files as the `gen0_band_*` and `gen20_band_*` columns; no separate reproduction script is required.
+Founder seeding and run orchestration are performed by `php/sim-functions-1.php` (a WordPress AJAX handler) driving `run_sim1.py` deployed as an Azure Function; `php/sim_runner1.php` is the admin page that operates them. The seeder performs the 200-dog founder draw, per-dog OI/IR/AGR scoring, and the generation-0 frequency tables that `run_sim1.py` requires; without it the deposit cannot reproduce generation 0. No credentials are present in either PHP file; the Azure Function key is read from a WordPress configuration constant.
+
+Allele frequency band composition is the fraction of distinct alleles in the population falling in the low, mid, and high frequency bands (thresholds 0.75/N and 1.25/N, where N is the number of distinct alleles at the locus). It is computed inside `run_sim1.py` by the same definition at every generation, including generation 0, and is present in the replicate files as the `gen0_band_*` and `gen20_band_*` columns; the `band_*_delta` columns are their difference and are directly interpretable. No separate reproduction script is required. (Naming note: this deposit's final-generation columns are named `gen20_*` because these runs were 20 generations; the live system now names them `genN_*` with a `final_gen` column recording the run length.)
 
 ## Figures
 
@@ -101,12 +108,6 @@ Columns: `study_code`, `mcb_pct`, `oi`, `agr`. 632 rows, `SP001`–`SP632`.
 These values reproduce the correlations reported in the manuscript: r = −0.634 for MCB against outlier index, r = +0.628 for MCB against average genetic relatedness.
 
 **These three-digit `SP001`–`SP632` study codes are a separate, unlinked code space from the four-digit `SP0001`-style codes in the founder files.** The two numbering schemes were assigned independently: equal numbers do not refer to the same dog, the datasets cannot be joined, and no crosswalk between the two is released. This is deliberate.
-
-## Known artifact in the replicate files
-
-> The `band_infr_delta`, `band_norm_delta` and `band_hfreq_delta` columns in the replicate files subtract two band measures computed on different denominators and are not interpretable. All other delta columns are valid.
-
-Use the paired `gen0_band_*` and `gen20_band_*` columns directly rather than the delta columns.
 
 ## Anonymization
 

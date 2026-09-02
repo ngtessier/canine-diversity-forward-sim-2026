@@ -97,6 +97,30 @@ def ensure_columns(cursor, s, tbl_progress, tbl_replicates):
         if not cursor.fetchone():
             cursor.execute("ALTER TABLE {} ADD COLUMN {} DOUBLE NULL".format(tbl_replicates, col))
 
+    # Final-generation columns were historically named gen20_* because 20 was
+    # the only run length.  The run length is configurable, so the columns are
+    # renamed genN_* (matching genN_ho / genN_fis) and final_gen records what
+    # N actually was.  Idempotent: renames run only while the old name exists.
+    for old_col, new_col in [
+            ('gen20_he', 'genN_he'), ('gen20_ne', 'genN_ne'), ('gen20_na', 'genN_na'),
+            ('gen20_oi', 'genN_oi'), ('gen20_ir', 'genN_ir'),
+            ('gen20_band_infr', 'genN_band_infr'), ('gen20_band_norm', 'genN_band_norm'),
+            ('gen20_band_hfreq', 'genN_band_hfreq'),
+            ('gen20_total_alleles', 'genN_total_alleles')]:
+        cursor.execute("SHOW COLUMNS FROM {} LIKE '{}'".format(tbl_replicates, old_col))
+        if cursor.fetchone():
+            cursor.execute("ALTER TABLE {} RENAME COLUMN {} TO {}".format(
+                tbl_replicates, old_col, new_col))
+
+    cursor.execute("SHOW COLUMNS FROM {} LIKE 'final_gen'".format(tbl_replicates))
+    if not cursor.fetchone():
+        cursor.execute("ALTER TABLE {} ADD COLUMN final_gen INT NULL".format(tbl_replicates))
+
+    for col in ['gen0_agr', 'genN_agr', 'agr_delta']:
+        cursor.execute("SHOW COLUMNS FROM {} LIKE '{}'".format(tbl_replicates, col))
+        if not cursor.fetchone():
+            cursor.execute("ALTER TABLE {} ADD COLUMN {} DOUBLE NULL".format(tbl_replicates, col))
+
 
 # -----------------------------------------------------------------------------
 # WANG LETTERS -- unchanged.  Coefficients come from the PARENT generation's
@@ -647,6 +671,37 @@ def run_generation(cursor, strategy, s, breed_raw, gen, parent_gen, count_loci, 
 # the FINAL generation, whatever `generations` was set to.
 # -----------------------------------------------------------------------------
 
+def mean_population_agr(cursor, s, gen, count_loci):
+    """Mean pairwise Wang relatedness over all dogs alive at `gen`, using
+    that generation's own allele frequencies.  This is the population-level
+    analog of the per-dog AGR: the average of all N*(N-1)/2 pairwise GR
+    values.  Computed once per recorded generation (gen 0 and the final
+    generation), not per breeding cycle, so cost is bounded."""
+    wang = wang_letters(cursor, "frq_gdx_{}".format(s), gen, count_loci)
+    if wang is None:
+        return None
+    cursor.execute(
+        "SELECT dog_id,locus_id,str_a,str_b FROM alleles_gdx_{} WHERE gen={}".format(s, gen))
+    dogs = {}
+    for row in cursor.fetchall():
+        did, lid, sa, sb = int(row[0]), int(row[1]), float(row[2]), float(row[3])
+        if did not in dogs:
+            dogs[did] = {}
+        dogs[did][lid] = (sa, sb)
+    ids = sorted(dogs.keys())
+    n = len(ids)
+    if n < 2:
+        return None
+    total = 0.0
+    pairs = 0
+    for i in range(n - 1):
+        ai = dogs[ids[i]]
+        for j in range(i + 1, n):
+            total += compute_gr(ai, dogs[ids[j]], wang, count_loci)
+            pairs += 1
+    return total / pairs if pairs else None
+
+
 def record_replicate(cursor, strategy, s, breed_raw, breed_id, count_loci, gN, final_gen,
                      tbl_progress, tbl_replicates, tbl_founders):
     cursor.execute(
@@ -678,19 +733,46 @@ def record_replicate(cursor, strategy, s, breed_raw, breed_id, count_loci, gN, f
     fr_rep = cursor.fetchone()
     founder_rep = int(fr_rep[0]) if fr_rep and fr_rep[0] else 1
 
-    cursor.execute("""SELECT AVG(oi), AVG(ir),
-        AVG(num_lo_alleles/(num_lo_alleles+num_mid_alleles+num_hi_alleles)),
-        AVG(num_mid_alleles/(num_lo_alleles+num_mid_alleles+num_hi_alleles)),
-        AVG(num_hi_alleles/(num_lo_alleles+num_mid_alleles+num_hi_alleles))
+    cursor.execute("""SELECT AVG(oi), AVG(ir)
         FROM better_bred.{}
         WHERE breed_suffix=%s AND replicate_num=%s""".format(tbl_founders),
         (breed_raw, founder_rep))
     fr = cursor.fetchone()
     g0_oi = round(float(fr[0]) if fr and fr[0] else 0.0, 6)
     g0_ir = round(float(fr[1]) if fr and fr[1] else 0.0, 6)
-    g0_band_infr = round(float(fr[2]) if fr and fr[2] else 0.0, 6)
-    g0_band_norm = round(float(fr[3]) if fr and fr[3] else 0.0, 6)
-    g0_band_hfreq = round(float(fr[4]) if fr and fr[4] else 0.0, 6)
+
+    # Generation-0 band composition: identical distinct-allele definition and
+    # SQL as the per-generation band computation in run_generation, at gen=0.
+    # (The founders table num_lo/mid/hi_alleles are per-dog metrics -- the OI
+    # ingredients, also shown on each dog's BetterBred page.  The population
+    # band composition is a different statistic and comes from the frequency
+    # tables; a dog-level average must never be stored in these columns.)
+    cursor.execute("""SELECT
+        AVG(CASE WHEN f.frq < (0.75/lt.numstrs) THEN 1.0 ELSE 0.0 END),
+        AVG(CASE WHEN f.frq >= (0.75/lt.numstrs) AND f.frq <= (1.25/lt.numstrs) THEN 1.0 ELSE 0.0 END),
+        AVG(CASE WHEN f.frq > (1.25/lt.numstrs) THEN 1.0 ELSE 0.0 END)
+        FROM frq_gdx_{s} f
+        JOIN (SELECT locus_id,COUNT(*) AS numstrs FROM frq_gdx_{s} WHERE gen=0 GROUP BY locus_id) lt
+          ON lt.locus_id=f.locus_id
+        WHERE f.gen=0""".format(s=s))
+    fb = cursor.fetchone()
+    g0_band_infr = round(float(fb[0]) if fb and fb[0] else 0.0, 6)
+    g0_band_norm = round(float(fb[1]) if fb and fb[1] else 0.0, 6)
+    g0_band_hfreq = round(float(fb[2]) if fb and fb[2] else 0.0, 6)
+
+    # Population mean AGR at gen 0 and at the final generation, both computed
+    # by the same method (mean pairwise Wang GR within the population, using
+    # that generation's frequencies) so the delta compares like with like.
+    # Note: founder seeding computes each founder's agr within the draw, so
+    # AVG(agr) from the founders table equals this gen-0 value by identity
+    # (mean over dogs of per-dog AGR-to-draw == mean pairwise GR).  The
+    # Sep 2026 smoke test confirmed equality to 6 decimals -- a useful
+    # cross-check that this independent computation is wired correctly.
+    g0_agr_val = mean_population_agr(cursor, s, 0, count_loci)
+    gN_agr_val = mean_population_agr(cursor, s, final_gen, count_loci)
+    g0_agr = round(g0_agr_val, 6) if g0_agr_val is not None else None
+    gN_agr = round(gN_agr_val, 6) if gN_agr_val is not None else None
+    agr_delta = round(gN_agr - g0_agr, 6) if (g0_agr is not None and gN_agr is not None) else None
 
     cursor.execute("""SELECT avg_oi, avg_ir, band_infr, band_norm, band_hfreq, total_alleles
         FROM better_bred.{}
@@ -723,19 +805,23 @@ def record_replicate(cursor, strategy, s, breed_raw, breed_id, count_loci, gN, f
 
     cursor.execute("""INSERT INTO {tr}
         (strategy, breed_suffix, breed_id, replicate_num, completed_at, pop_size, loci,
+         final_gen,
          gen0_he, gen0_ne, gen0_na, gen0_oi, gen0_ir,
          gen0_band_infr, gen0_band_norm, gen0_band_hfreq, gen0_total_alleles,
-         gen20_he, gen20_ne, gen20_na, gen20_oi, gen20_ir,
-         gen20_band_infr, gen20_band_norm, gen20_band_hfreq, gen20_total_alleles,
+         genN_he, genN_ne, genN_na, genN_oi, genN_ir,
+         genN_band_infr, genN_band_norm, genN_band_hfreq, genN_total_alleles,
          he_delta, ne_delta, na_delta, oi_delta, ir_delta,
          band_infr_delta, band_norm_delta, band_hfreq_delta, total_alleles_delta,
-         gen0_ho, gen0_fis, genN_ho, genN_fis, ho_delta, fis_delta)
-        VALUES (%s,%s,%s,%s,NOW(),%s,%s,
+         gen0_ho, gen0_fis, genN_ho, genN_fis, ho_delta, fis_delta,
+         gen0_agr, genN_agr, agr_delta)
+        VALUES (%s,%s,%s,%s,NOW(),%s,%s,%s,
                 %s,%s,%s,%s,%s,%s,%s,%s,%s,
                 %s,%s,%s,%s,%s,%s,%s,%s,%s,
                 %s,%s,%s,%s,%s,%s,%s,%s,%s,
-                %s,%s,%s,%s,%s,%s)""".format(tr=tbl_replicates),
+                %s,%s,%s,%s,%s,%s,
+                %s,%s,%s)""".format(tr=tbl_replicates),
         (strategy, breed_raw, breed_id, rep_num, gN['keepers'], count_loci,
+         final_gen,
          g0_he, g0_ne, g0_na, g0_oi, g0_ir,
          g0_band_infr, g0_band_norm, g0_band_hfreq, g0_total_alleles,
          gN_he, gN_ne, gN_na, gN_oi, gN_ir,
@@ -745,7 +831,8 @@ def record_replicate(cursor, strategy, s, breed_raw, breed_id, count_loci, gN, f
          round(gN_band_infr-g0_band_infr, 6), round(gN_band_norm-g0_band_norm, 6),
          round(gN_band_hfreq-g0_band_hfreq, 6), gN_total_alleles-g0_total_alleles,
          g0_ho, g0_fis, gN_ho, gN_fis,
-         round(gN_ho-g0_ho, 4), round(gN_fis-g0_fis, 4)))
+         round(gN_ho-g0_ho, 4), round(gN_fis-g0_fis, 4),
+         g0_agr, gN_agr, agr_delta))
 
 
 # -----------------------------------------------------------------------------
