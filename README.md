@@ -8,21 +8,26 @@ This repository contains the complete materials for a forward simulation study c
 
 ```
 manuscript/
-  SimStudyI-v42.docx                    assembled manuscript (AUTHORITATIVE)
-  SimStudyI-v42.md                      pandoc text extraction of the docx, for
+  SimStudyI-Sept3.docx                  assembled manuscript (AUTHORITATIVE)
+  SimStudyI-Sept3.md                    pandoc text extraction of the docx, for
                                         accessibility and search only; not a build source
   figures/                              submission-resolution figures
-    Figure1_allelic_richness.png
-    Figure2_expected_heterozygosity.png
-    Figure3_observed_heterozygosity.png
-    Figure4_inbreeding_coefficient.png
-    FigureS1_mean_internal_relatedness.png
+    Figure1_allelic_richness.{png,pdf,eps}
+    Figure2_expected_heterozygosity.{png,pdf,eps}
+    Figure3_observed_heterozygosity.{png,pdf,eps}
+    Figure4_inbreeding_coefficient.{png,pdf,eps}
+    FigureS1_mean_internal_relatedness.{png,pdf,eps}
     FigureS2_OI_AGR_vs_MCB_2panel.{png,pdf,eps}
+    make_Figures1to4.py                 regenerates Figures 1-4 and S1 from the
+                                        deposited run data
     make_FigureS2.py                    regenerates Figure S2 from the
                                         deposited source data
   supplementary/
     SimStudyI_SupplementaryTables_S1-S5.xlsx
     SimStudyI_S6_threshold_sensitivity_data.xlsx
+  tables/                               main-text and supplementary tables in
+                                        machine-readable form (CSV + XLSX);
+                                        see tables/README.md
   data/figureS2/
     S2_mcb_oi_agr_deposit.csv           source data for Supplementary Figure S2
 
@@ -55,7 +60,7 @@ Two runners are included. Both are Azure Function HTTP endpoints that operate ag
 
 **`run_sim1.py`** is the main study runner and produced every result reported in the manuscript body. It implements the four keeper-selection strategies (OI, AGR, IR, RANDOM), the Wang (2002) relatedness estimator used for average genetic relatedness, per-generation observed and expected heterozygosity with F<sub>IS</sub>, and the allele frequency band composition reported in Table 3. It writes the `sim1_progress`, `sim1_replicates`, and `sim1_founders` tables. The first two are exported here as the `sim1_*` files in `results/`; the founders table is exported, re-keyed to the released study codes, as `results/founder_replicate_rosters_anonymized.csv`. Litter size, number of generations, and sires per dam are runtime parameters.
 
-**`run_sim_1a.py`** is the threshold-sensitivity runner behind Supplementary Table S6. It re-runs the design across five low/high frequency-band threshold pairs (T1 = 0.900/1.100 through T5 = 0.600/1.400) plus a random control, where T3 = 0.750/1.250 is the standard used throughout the main study. It writes the separate `sim1a_*` tables.
+**`run_sim_1a.py`** is the threshold-sensitivity runner behind Supplementary Table S6. It re-runs the design across five low/high frequency-band threshold pairs plus a random control. The pairs are multipliers of 1/N, matching the band definition below: T1 = 0.900/N and 1.100/N, T2 = 0.825/N and 1.175/N, T3 = 0.750/N and 1.250/N, T4 = 0.675/N and 1.325/N, T5 = 0.600/N and 1.400/N. T3 is the standard used throughout the main study. It writes the separate `sim1a_*` tables.
 
 Founder seeding and run orchestration are performed by `php/sim-functions-1.php` (a WordPress AJAX handler) driving `run_sim1.py` deployed as an Azure Function; `php/sim_runner1.php` is the admin page that operates them. The seeder performs the 200-dog founder draw, per-dog OI/IR/AGR scoring, and the generation-0 frequency tables that `run_sim1.py` requires; without it the deposit cannot reproduce generation 0. No credentials are present in either PHP file; the Azure Function key is read from a WordPress configuration constant.
 
@@ -63,17 +68,17 @@ Allele frequency band composition is the fraction of distinct alleles in the pop
 
 ## Figures
 
-Figures 1–4 and Supplementary Figure S1 are PNG at 300 dpi (4320 × 1432 px). Supplementary Figure S2 is supplied at 600 dpi PNG and as vector PDF and EPS.
+Every figure is supplied as PNG at 600 dpi and as vector PDF and EPS. The EPS renders the ±1 SD bands opaque rather than transparent, a PostScript limitation; the PDF preserves them.
 
 `make_FigureS2.py` regenerates Supplementary Figure S2 in all three formats directly from `manuscript/data/figureS2/S2_mcb_oi_agr_deposit.csv`, and prints the correlation coefficients it plots (r = −0.634 for outlier index, r = +0.628 for average genetic relatedness). It requires only `matplotlib` and `numpy`.
 
-The plotting code for Figures 1–4 and S1 is not included; those figures are provided as rendered images. All values plotted in them are present in `simulation/results/sim1_progress_*_50rep.csv` (`avg_na`, `avg_he`, `avg_ho`, `avg_fis`, `avg_ir` by generation, strategy, and replicate).
+`make_Figures1to4.py` regenerates Figures 1–4 and Supplementary Figure S1 in all three formats. It reads `simulation/results/sim1_progress_*_50rep.csv` for the per-generation values (`avg_na` for Figure 1, `avg_he` for Figure 2, `avg_ho` for Figure 3, `avg_fis` for Figure 4, `avg_ir` for Figure S1, each meaned across the 50 replicates with ±1 SD bands) and `simulation/founder-genotypes/founder_derived_stats.csv` for the generation-0 point every line starts from. Figure 1 is normalized to that founder value as 100%. It requires only `matplotlib` and `numpy`.
 
-## Table numbering (v42)
+## Table numbering
 
 Table numbering changed twice across drafts: at v37 a breed-wide VGL statistics table entered the main text as Table 1, and at v40 that table moved to Supplementary Table S8, returning the main tables to a 1–4 sequence (with the per-breed outcome tables merged into a single Table 1). Readers working from an earlier draft should map as follows:
 
-| v40–v42 (current) | v37-era drafts | Pre-v37 drafts | Contents |
+| Current (v40 onward) | v37-era drafts | Pre-v37 drafts | Contents |
 |---|---|---|---|
 | Table 1 | Tables 2a–c | Tables 1a–c | Founder (generation 0) and generation-20 outcomes, by strategy in each breed |
 | Table 2 | Table 3 | Table 2 | Allele loss over the final five generations |

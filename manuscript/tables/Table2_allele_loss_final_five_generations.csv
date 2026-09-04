@@ -1,0 +1,14 @@
+"Table 2. Allele loss over the final five generations (generation 15 to 20), mean total alleles across all 33 loci. Strategies: High OI, Low AGR, Low IR, Random. Source: SimStudyI manuscript."
+Breed,Strategy,Alleles lost,% lost,Slope (alleles/gen)
+Standard Poodle,High OI,0.04,0.02%,-0.008
+,Low AGR,0.00,0.00%,0.000
+,Low IR,6.24,2.62%,-1.270
+,Random,8.46,3.66%,-1.732
+Doberman Pinscher,High OI,0.06,0.03%,-0.013
+,Low AGR,0.12,0.07%,-0.025
+,Low IR,3.94,2.44%,-0.791
+,Random,7.18,4.78%,-1.399
+Flat-Coated Retriever,High OI,0.00,0.00%,0.000
+,Low AGR,0.06,0.04%,-0.012
+,Low IR,2.28,1.52%,-0.458
+,Random,3.80,2.63%,-0.775

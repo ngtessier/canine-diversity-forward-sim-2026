@@ -1,0 +1,4 @@
+"Table 4. Two highly inbred Standard Poodles: nearly matching internal relatedness, opposite outlier index. Source: SimStudyI manuscript."
+Dog,Outlier index,Average genetic relatedness,Internal relatedness,High-freq alleles,Mid-freq,Low-freq
+Onyx,0.02,0.06,0.51,65,0,1
+Harriette,0.45,-0.22,0.48,43,10,13

@@ -1,0 +1,35 @@
+"Supplementary Table S7(a). Genome positions of the 33 panel loci on canFam4 (UU_Cfam_GSD_1.0), determined by UCSC In-Silico PCR of the published primer pairs (Pedersen et al. 2012; Wictum et al. 2013). Every amplicon fell within its published size range. Dagger: the published LEI004 reverse primer mismatches the canFam4 reference at one base, 4 bp from the 3-prime end; position obtained with the corrected primer."
+Locus,CFA,Position (Mb)
+FH2848,2,59.40
+AHTh171-A,6,7.39
+REN162C04,7,26.51
+VGL0760,7,57.06
+VGL0910,9,8.10
+VGL1063,10,61.33
+INU055,10,68.08
+AHT137,11,3.09
+REN105L03,11,38.57
+VGL1165,11,62.70
+FH2054,12,21.52
+INU030,12,59.94
+AHT121,13,49.45
+REN169D01,14,34.85
+REN247M23,15,23.33
+AHTh260,16,14.23
+REN54P11,18,18.36
+VGL1828,18,25.78
+VGL2009,20,6.36
+INRA21,21,46.71
+C22.279,22,49.77
+AHTk253,23,8.50
+FH2001,23,48.46
+VGL2409,24,6.59
+AHTk211,26,11.12
+VGL2918,29,15.70
+REN169O18,29,32.38
+VGL3008,30,6.14
+VGL3235,32,7.29
+INU005,33,26.29
+REN64E19,34,16.94
+AHTH130,36,20.24
+LEI004†,37,28.22

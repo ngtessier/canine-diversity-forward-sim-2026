@@ -1,0 +1,5 @@
+"Supplementary Table S8. Breed-wide genetic diversity statistics for the three breeds, UC Davis Veterinary Genetics Laboratory, accessed August 20, 2026. Na = mean alleles per locus; Ne = mean effective alleles per locus; Ho = observed heterozygosity; He = expected heterozygosity. VGL statistics pages update daily; this file is a dated snapshot."
+Breed,n tested,Na,Ne,Ho,He
+Standard Poodle,"6,108",10.212,3.745,0.681,0.701
+Doberman Pinscher,"1,544",8.000,2.320,0.473,0.504
+Flat-Coated Retriever,964,6.212,2.590,0.551,0.559

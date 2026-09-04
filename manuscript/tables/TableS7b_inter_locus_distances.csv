@@ -1,0 +1,11 @@
+"Supplementary Table S7(b). Distances between loci sharing an autosome; the remaining 17 loci are each the sole panel marker on their chromosome. Minimum inter-locus distance 6.75 Mb (CFA10), beyond the distances at which D-prime falls to 0.5 within dog breeds (0.4-3.2 Mb; Sutter et al. 2004)."
+CFA,Locus pair,Distance (Mb)
+10,VGL1063 - INU055,6.75
+18,REN54P11 - VGL1828,7.42
+29,VGL2918 - REN169O18,16.68
+11,REN105L03 - VGL1165,24.13
+7,REN162C04 - VGL0760,30.55
+11,AHT137 - REN105L03,35.48
+12,FH2054 - INU030,38.42
+23,AHTk253 - FH2001,39.96
+11,AHT137 - VGL1165,59.61

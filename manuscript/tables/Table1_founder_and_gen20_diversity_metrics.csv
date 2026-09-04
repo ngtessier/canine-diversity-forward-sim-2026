@@ -1,0 +1,20 @@
+"Table 1. Founder (generation 0) and generation-20 diversity metrics by strategy in each breed. Means of 50 replicates. Breeds: SP, Standard Poodle; DP, Doberman Pinscher; FCR, Flat-Coated Retriever. Columns: Na, mean alleles per locus; He, expected heterozygosity; Ho, observed heterozygosity; Na_e, effective alleles; OI, outlier index; IR, internal relatedness; Fis, inbreeding coefficient. Strategies: High OI, highest outlier index; Low AGR, lowest average genetic relatedness; Low IR, lowest internal relatedness; Random, random selection. Source: SimStudyI manuscript."
+Strategy,Gen,Na,He,Ho,Na_e,OI,IR,Fis
+SP,,,,,,,,
+Founder,0,8.38,0.707,0.694,3.81,0.30,0.020,0.019
+High OI,20,8.00,0.861,0.863,7.81,1.92,-0.001,-0.003
+Low AGR,20,7.99,0.861,0.821,7.87,1.64,0.047,0.047
+Low IR,20,7.03,0.765,0.838,4.56,0.43,-0.095,-0.097
+Random,20,6.74,0.689,0.691,3.61,0.38,-0.001,-0.002
+DP,,,,,,,,
+Founder,0,5.97,0.504,0.484,2.32,0.23,0.043,0.038
+High OI,20,5.56,0.793,0.796,5.41,1.86,-0.004,-0.005
+Low AGR,20,5.50,0.775,0.726,5.17,1.18,0.062,0.067
+Low IR,20,4.77,0.650,0.727,3.09,0.43,-0.120,-0.120
+Random,20,4.33,0.490,0.492,2.25,0.32,0.001,-0.002
+FCR,,,,,,,,
+Founder,0,5.05,0.553,0.556,2.55,0.38,-0.003,-0.003
+High OI,20,4.88,0.758,0.762,4.78,1.97,-0.004,-0.006
+Low AGR,20,4.83,0.750,0.690,4.70,1.56,0.080,0.084
+Low IR,20,4.49,0.662,0.740,3.25,0.57,-0.119,-0.121
+Random,20,4.26,0.540,0.540,2.49,0.43,0.002,-0.001
